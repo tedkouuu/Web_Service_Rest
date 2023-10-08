@@ -1,5 +1,6 @@
 package com.example.webservice.controllers;
 
+import com.example.webservice.exceptions.UserNotFoundException;
 import com.example.webservice.models.User;
 import com.example.webservice.services.UserDaoService;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable int id) {
-        return userDaoService.findById(id);
+        User user = userDaoService.findById(id);
+
+        if (user == null) {
+            throw new UserNotFoundException("id:" + id);
+        }
+
+        return user;
     }
 
     @PostMapping("/users")
