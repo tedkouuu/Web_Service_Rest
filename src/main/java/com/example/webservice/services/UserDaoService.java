@@ -1,39 +1,34 @@
 package com.example.webservice.services;
 
 import com.example.webservice.models.User;
+import com.example.webservice.repositories.UserRepository;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserDaoService {
 
-    private static List<User> users = new ArrayList<>();
-    private static int usersCount = 0;
+    private final UserRepository userRepository;
 
-    static {
-        users.add(new User(++usersCount, "Adi", LocalDate.now().minusYears(30)));
-        users.add(new User(++usersCount, "Eve", LocalDate.now().minusYears(25)));
-        users.add(new User(++usersCount, "Jim", LocalDate.now().minusYears(20)));
+    public UserDaoService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<User> findAll() {
-        return users;
+        return this.userRepository.findAll();
     }
 
-    public User findById(int id) {
-        return users.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
+    public Optional<User> findById(int id) {
+        return this.userRepository.findById(id);
     }
 
     public User save(User user) {
-        user.setId(++usersCount);
-        users.add(user);
-        return user;
+        return this.userRepository.save(user);
     }
 
     public void deleteById(int id) {
-        users.removeIf(user -> user.getId().equals(id));
+        this.userRepository.deleteById(id);
     }
 }

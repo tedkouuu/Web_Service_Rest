@@ -17,12 +17,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @RestController
 public class UserController {
 
     private final MessageSource messageSource;
-
     private final UserDaoService userDaoService;
 
     public UserController(MessageSource messageSource, UserDaoService userDaoService) {
@@ -38,13 +38,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public EntityModel<User> retrieveUser(@PathVariable int id) {
-        User user = userDaoService.findById(id);
+        Optional<User> user = userDaoService.findById(id);
 
-        if (user == null) {
+        if (user.isEmpty()) {
             throw new UserNotFoundException("id:" + id);
         }
 
-        EntityModel<User> entityModel = EntityModel.of(user);
+        EntityModel<User> entityModel = EntityModel.of(user.get());
 
         WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
         entityModel.add(link.withRel("all-users"));
@@ -55,7 +55,7 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable int id) {
 
-        userDaoService.deleteById(id);
+        this.userDaoService.deleteById(id);
     }
 
     @PostMapping("/users")
