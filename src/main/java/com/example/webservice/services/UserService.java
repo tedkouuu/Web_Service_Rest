@@ -2,17 +2,17 @@ package com.example.webservice.services;
 
 import com.example.webservice.models.User;
 import com.example.webservice.repositories.UserRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
-public class UserDaoService {
+@Service
+public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserDaoService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

@@ -4,7 +4,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.example.webservice.exceptions.UserNotFoundException;
 import com.example.webservice.models.User;
-import com.example.webservice.services.UserDaoService;
+import com.example.webservice.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,9 +23,9 @@ import java.util.Optional;
 public class UserController {
 
     private final MessageSource messageSource;
-    private final UserDaoService userDaoService;
+    private final UserService userDaoService;
 
-    public UserController(MessageSource messageSource, UserDaoService userDaoService) {
+    public UserController(MessageSource messageSource, UserService userDaoService) {
         this.messageSource = messageSource;
         this.userDaoService = userDaoService;
     }
